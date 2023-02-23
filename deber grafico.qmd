@@ -1,0 +1,40 @@
+---
+title: "Deber"
+author: "Kimberly Escudero"
+format: html
+editor: visual
+---
+
+```{r}
+library(ggplot2); library(ggpubr); library(ggpmisc); library(dplyr); library(tidyverse); library(ggpp); library(colourpicker)
+
+help("who")
+
+
+dt= who
+
+pr <- dt %>% select("year", "new_sp_m014", "new_sp_f014" )
+prf= pr %>% filter(new_sp_m014 > 0)
+prm= prf %>% filter(new_sp_f014 > 0)
+prm
+
+
+
+dt3= prm %>% filter(year >= 1996)
+dt3
+
+
+
+
+gf= dt3 %>% ggplot(aes(x=new_sp_m014, y =new_sp_f014, color = year)) + geom_point(size = 0.2) + facet_wrap(year ~. ,scales = "free") + geom_smooth(method = "lm", formula = y ~ x) + xlim(0,900) + ylim(0,1000) + labs(y= "Casos positivos de TB en niños de 0 a 14 años", x= "Casos positivos de TB en niños de 0 a 14 años") + stat_poly_eq(aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
+               formula = y~x, parse = TRUE, label.x.npc = 2., color="green")
+```
+
+You can add options to executable code like this
+
+```{r}
+plot(gf)
+
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
